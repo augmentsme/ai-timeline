@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Evolution Timeline: Executive Overview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 15px;
+            color: #333;
+            overflow-x: auto;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            min-height: calc(100vh - 30px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .decades-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            padding: 20px;
+            min-height: 0;
+        }
+
+        .decade-column {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            border-top: 4px solid;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .decade-1980s { border-top-color: #e74c3c; }
+        .decade-1990s { border-top-color: #f39c12; }
+        .decade-2000s { border-top-color: #27ae60; }
+        .decade-2010s { border-top-color: #3498db; }
+        .decade-2020s { border-top-color: #9b59b6; }
+
+        .decade-header {
+            text-align: center;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .decade-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .decade-subtitle {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .timeline-items {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            min-height: 0;
+        }
+
+        .timeline-item {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 3px solid;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .decade-1980s .timeline-item { border-left-color: #e74c3c; }
+        .decade-1990s .timeline-item { border-left-color: #f39c12; }
+        .decade-2000s .timeline-item { border-left-color: #27ae60; }
+        .decade-2010s .timeline-item { border-left-color: #3498db; }
+        .decade-2020s .timeline-item { border-left-color: #9b59b6; }
+
+        .year {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #2c3e50;
+            line-height: 1.2;
+        }
+
+        .description {
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .impact-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .business-impact {
+            background-color: #f8f9fa;
+            border-left: 3px solid #17a2b8;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 0 5px 5px 0;
+            font-size: 0.75rem;
+            color: #495057;
+            display: none;
+            line-height: 1.3;
+        }
+
+        .timeline-item.expanded .business-impact {
+            display: block;
+            animation: expandIn 0.3s ease;
+        }
+
+        @keyframes expandIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stats {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .stats h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .legend {
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #eee;
+            flex-shrink: 0;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .decades-container {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .decade-column:nth-child(4),
+            .decade-column:nth-child(5) {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .decades-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                max-height: none;
+                overflow-y: visible;
+            }
+            
+            .container {
+                min-height: auto;
+            }
+            
+            .main-content {
+                min-height: auto;
+            }
+            
+            .timeline-items {
+                max-height: none;
+                overflow-y: visible;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Custom scrollbar for timeline items */
+        .timeline-items::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .timeline-items::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 2px;
+        }
+
+        .timeline-items::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 2px;
+        }
+
+        .timeline-items::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>The AI Revolution: 1980-2024</h1>
+            <p>Four Decades of Business Transformation Through Artificial Intelligence</p>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #e74c3c;"></div>
+                <span>1980s - Foundation Era</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f39c12;"></div>
+                <span>1990s - Pattern Recognition</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #27ae60;"></div>
+                <span>2000s - Consumer Integration</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #3498db;"></div>
+                <span>2010s - Deep Learning Era</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #9b59b6;"></div>
+                <span>2020s - Generative AI</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="decades-container">
+                <!-- 1980s Column -->
+                <div class="decade-column decade-1980s">
+                    <div class="decade-header">
+                        <div class="decade-title">1980s</div>
+                        <div class="decade-subtitle">Foundation Era</div>
+                    </div>
+                    <div class="timeline-items">
+                        <div class="timeline-item">
+                            <div class="year">1980</div>
+                            <div class="title">Expert Systems</div>
+                            <div class="description">Rule-based software for decision-making in medical diagnosis and financial planning.</div>
+                            <div class="impact-badge">Foundation</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> First automated decision systems, reducing human error and standardizing expert knowledge.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">Mid-1980s</div>
+                            <div class="title">Neural Network Revival</div>
+                            <div class="description">Research around artificial neurons learning by example—foundation for deep learning.</div>
+                            <div class="impact-badge">Research</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Mathematical foundations for modern recommendation engines and predictive analytics.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1990s Column -->
+                <div class="decade-column decade-1990s">
+                    <div class="decade-header">
+                        <div class="decade-title">1990s</div>
+                        <div class="decade-subtitle">Pattern Recognition</div>
+                    </div>
+                    <div class="timeline-items">
+                        <div class="timeline-item">
+                            <div class="year">Early 1990s</div>
+                            <div class="title">Support Vector Machines</div>
+                            <div class="description">Pattern-finding algorithms for customer segmentation and text classification.</div>
+                            <div class="impact-badge">Analytics</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Revolutionized customer segmentation and targeted marketing campaigns.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">1997</div>
+                            <div class="title">Deep Blue Chess</div>
+                            <div class="description">IBM's computer defeated world chess champion, proving machines can master strategy.</div>
+                            <div class="impact-badge">Strategic</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Inspired investment in AI research and changed public perception of machine capabilities.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">Late 1990s</div>
+                            <div class="title">Recommender Systems</div>
+                            <div class="description">"People who bought X also bought Y" engines for e-commerce and streaming.</div>
+                            <div class="impact-badge">Revenue</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Billions in additional revenue through personalized recommendations and cross-selling.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2000s Column -->
+                <div class="decade-column decade-2000s">
+                    <div class="decade-header">
+                        <div class="decade-title">2000s</div>
+                        <div class="decade-subtitle">Consumer Integration</div>
+                    </div>
+                    <div class="timeline-items">
+                        <div class="timeline-item">
+                            <div class="year">2002</div>
+                            <div class="title">Consumer Robotics</div>
+                            <div class="description">Roomba showed AI could be embedded in everyday home appliances.</div>
+                            <div class="impact-badge">Consumer</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Opened consumer robotics market, creating new mainstream product categories.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">2006</div>
+                            <div class="title">Big Data Frameworks</div>
+                            <div class="description">Hadoop made it practical to process massive datasets, unlocking data-driven AI.</div>
+                            <div class="impact-badge">Infrastructure</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Enabled data-driven decision making and new business models across industries.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2010s Column -->
+                <div class="decade-column decade-2010s">
+                    <div class="decade-header">
+                        <div class="decade-title">2010s</div>
+                        <div class="decade-subtitle">Deep Learning Era</div>
+                    </div>
+                    <div class="timeline-items">
+                        <div class="timeline-item">
+                            <div class="year">2011</div>
+                            <div class="title">Voice Assistants</div>
+                            <div class="description">Siri brought conversational speech recognition to smartphones.</div>
+                            <div class="impact-badge">Interface</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Created voice commerce market and smart speaker ecosystem worth billions.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">2012</div>
+                            <div class="title">Deep Learning Breakthrough</div>
+                            <div class="description">AlexNet achieved unprecedented image recognition accuracy, starting the modern AI era.</div>
+                            <div class="impact-badge">Paradigm Shift</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Triggered massive AI startup investment, revolutionizing computer vision applications.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">2014-15</div>
+                            <div class="title">Chatbots & Virtual Agents</div>
+                            <div class="description">Commercial bots for customer service, handling queries and freeing human agents.</div>
+                            <div class="impact-badge">Cost Reduction</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> 30-50% reduction in customer service costs while improving response times.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">2015</div>
+                            <div class="title">Self-Driving Prototypes</div>
+                            <div class="description">Multiple companies demonstrated autonomous highway navigation capabilities.</div>
+                            <div class="impact-badge">Disruption</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Over $100B investment, promising to transform transportation and logistics.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">2016</div>
+                            <div class="title">AlphaGo Victory</div>
+                            <div class="description">DeepMind defeated Go champion, showing AI handles intuition-heavy decisions.</div>
+                            <div class="impact-badge">Strategic</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Inspired applications in portfolio management and strategic planning.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">2017</div>
+                            <div class="title">Transformer Models</div>
+                            <div class="description">New architecture excelling at text understanding—backbone of modern language AI.</div>
+                            <div class="impact-badge">Foundation</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Enabled current wave of generative AI applications and coding assistants.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">2018</div>
+                            <div class="title">BERT & GPT-1</div>
+                            <div class="description">Pioneering language models capable of fluent text understanding and generation.</div>
+                            <div class="impact-badge">Language</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Enhanced search engines, translation, and content analysis across knowledge work.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2020s Column -->
+                <div class="decade-column decade-2020s">
+                    <div class="decade-header">
+                        <div class="decade-title">2020s</div>
+                        <div class="decade-subtitle">Generative AI</div>
+                    </div>
+                    <div class="timeline-items">
+                        <div class="timeline-item">
+                            <div class="year">2020</div>
+                            <div class="title">GPT-3</div>
+                            <div class="description">Massive language model for writing essays and code, available via cloud APIs.</div>
+                            <div class="impact-badge">Platform</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Democratized AI development, enabling thousands of content and business tools.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">2021</div>
+                            <div class="title">DALL·E & CLIP</div>
+                            <div class="description">Models generating images from text descriptions for design and marketing teams.</div>
+                            <div class="impact-badge">Creative</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> Transformed creative industries, reducing design costs and time-to-market.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">2022</div>
+                            <div class="title">ChatGPT</div>
+                            <div class="description">Conversational interface demonstrating AI as interactive assistant for various tasks.</div>
+                            <div class="impact-badge">Mass Adoption</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> 100M users in 2 months, accelerating enterprise AI adoption globally.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="year">2023-24</div>
+                            <div class="title">Multimodal Foundation Models</div>
+                            <div class="description">Platforms handling text, images, audio, and code for enterprise applications.</div>
+                            <div class="impact-badge">Enterprise</div>
+                            <div class="business-impact">
+                                <strong>Impact:</strong> 80%+ of Fortune 500 companies piloting or deploying generative AI solutions.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <h3>AI's Business Impact by the Numbers</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">$13T</span>
+                    <span class="stat-label">Projected Economic Impact by 2030</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">40%</span>
+                    <span class="stat-label">Productivity Gains in Knowledge Work</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">85%</span>
+                    <span class="stat-label">of Executives Plan AI Investment</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">25x</span>
+                    <span class="stat-label">Computing Power Growth Since 2012</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add interactivity to timeline items
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Close other expanded items in the same column
+                const column = this.closest('.decade-column');
+                column.querySelectorAll('.timeline-item.expanded').forEach(expanded => {
+                    if (expanded !== this) {
+                        expanded.classList.remove('expanded');
+                    }
+                });
+                
+                // Toggle this item
+                this.classList.toggle('expanded');
+            });
+        });
+
+        // Add hover effects
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.borderLeftWidth = '5px';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.borderLeftWidth = '3px';
+            });
+        });
+    </script>
+</body>
+</html>
